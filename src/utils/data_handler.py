@@ -2,6 +2,7 @@
 import gzip
 import os
 
+import matplotlib.pyplot as plt
 import numpy as np
 
 
@@ -68,10 +69,15 @@ class DataLoader:
 
         # retrieve image & labels objects
         images_path = os.path.join(path, "train-images-idx3-ubyte.gz")
-        images = training_images(images_path)
+        self.images = training_images(images_path)
 
         labels_path = os.path.join(path, "train-labels-idx1-ubyte.gz")
-        labels = training_labels(labels_path)
+        self.labels = training_labels(labels_path)
+
+        # Prepare a dict of image array indices for each digit
+        self.digit_indices = {}
+        for i in range(10):
+            self.digit_indices[i] = np.where(self.labels == i)[0]
 
 
 if __name__ == "__main__":
