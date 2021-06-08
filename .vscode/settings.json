@@ -1,3 +1,11 @@
 {
-    "python.pythonPath": "/Users/anuj/.pyenv/versions/3.9.1/bin/python"
+    "editor.formatOnSave": true,
+    "python.formatting.provider": "black",
+    "python.sortImports.path": "isort",
+    "editor.codeActionsOnSave": {
+        "source.organizeImports": true
+    },
+    "python.linting.pylintEnabled": true,
+    "python.linting.enabled": true,
+    "python.pythonPath": ".venv/bin/python",
 }
