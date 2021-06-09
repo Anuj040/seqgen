@@ -9,6 +9,5 @@
 poetry.lock
 
 # Directories
-dataset/
 outputs/
 tests/test_outputs
