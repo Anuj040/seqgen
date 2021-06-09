@@ -2,10 +2,12 @@
 import gzip
 import os
 import random
+import zipfile
 from typing import Union
 
 import matplotlib.pyplot as plt
 import numpy as np
+import requests
 
 
 def training_images(path: str) -> np.ndarray:
@@ -63,10 +65,41 @@ def training_labels(path: str) -> np.ndarray:
         return labels
 
 
+def data_downloader(path: str) -> None:
+    """Method for downloading the dataset if not available at the directed location
+
+    Args:
+        path (str): Directed location
+    """
+    url = "https://data.deepai.org/mnist.zip"
+    r = requests.get(url, allow_redirects=False)
+
+    mnist_path = os.path.join(path, "mnist.zip")
+    with open(mnist_path, "wb") as f:
+
+        # Saving received content as a zip file
+        f.write(r.content)
+
+    # Extrcting the contents of the downloaded file
+    with zipfile.ZipFile(mnist_path, "r") as zip_ref:
+        zip_ref.extractall(path)
+
+    # Cleaning # Remove .zip file
+    os.remove(mnist_path)
+
+
 class DataLoader:
     """Class for retriving and sorting data"""
 
     def __init__(self, path: str) -> None:
+
+        if not os.path.exists(path):
+            # If the data does not exist at directed location
+            # Download and extract the data
+            os.makedirs(path)
+            print("Data not available. Downloading it from the internet.")
+            data_downloader(path)
+            print("Download finished.")
 
         # retrieve image & labels objects
         images_path = os.path.join(path, "train-images-idx3-ubyte.gz")
