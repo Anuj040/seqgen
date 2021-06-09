@@ -14,14 +14,14 @@ LOADER = DataLoader("dataset")
 
 
 def generate_numbers_sequence(
-    digits: Union[Iterator[int]],
+    digits: Iterator[int],
     image_width: Union[int, None] = None,
     spacing_range: Tuple[int, int] = (2, 10),
 ) -> np.ndarray:
     """method for generating an image for sequence of numbers
 
     Args:
-        digits (Union[Iterator[int]]): Digits to be converted to a sequence
+        digits (Iterator[int]): Digits to be converted to a sequence
         image_width (Union[int, None]): Width of the final image.
         spacing_range (Tuple[int, int], optional): [description]. Defaults to (2, 10).
 
