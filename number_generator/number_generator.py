@@ -10,7 +10,7 @@ from PIL import Image
 
 # pylint: disable = wrong-import-position, import-error
 sys.path.append("./")
-from src.utils.data_handler import DataLoader
+from number_generator.utils.data_handler import DataLoader
 
 # Common data loader object for all methods
 LOADER = DataLoader("dataset")
