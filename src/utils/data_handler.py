@@ -34,13 +34,10 @@ def training_images(path: str) -> np.ndarray:
         # rest is the image pixel data, each pixel is stored as an unsigned byte
         # pixel values are 0 to 255
         image_data = file.read()
-        images = (
-            np.frombuffer(image_data, dtype=np.uint8)
-            .reshape((image_count, row_count, column_count))
-            .astype(np.float32)
+        images = np.frombuffer(image_data, dtype=np.uint8).reshape(
+            (image_count, row_count, column_count)
         )
-        # Color Inversion -> white background & black text
-        return 255.0 - images
+        return images
 
 
 def training_labels(path: str) -> np.ndarray:

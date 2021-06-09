@@ -1,2 +1,12 @@
 # pyenv
 .python-version
+
+# Binaries
+*__pycache__
+
+# Poetry 
+poetry.lock
+
+# Directories
+dataset/
+outputs/
