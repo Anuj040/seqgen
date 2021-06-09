@@ -1,4 +1,4 @@
-"""module for unittests on generate_numbers_sequence of nunmber_generator module"""
+"""module for unittests on generate_phone_numbers of nunmber_generator module"""
 import glob
 import os
 import random
