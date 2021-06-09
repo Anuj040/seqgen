@@ -38,7 +38,7 @@ def generate_numbers_sequence(
     image_height = 28
 
     # If no image width has been provided,
-    assert image_width is not None, "Image width needs to be spedicfied"
+    assert image_width is not None, "Image width needs to be specified"
 
     images = []
     save_img_name = ""
