@@ -2,12 +2,15 @@
 
 import os
 import random
+import sys
 from typing import Iterator, Tuple, Union
 
 import numpy as np
 from PIL import Image
 
-from utils.data_handler import DataLoader
+# pylint: disable = wrong-import-position, import-error
+sys.path.append("./")
+from src.utils.data_handler import DataLoader
 
 # Common data loader object for all methods
 LOADER = DataLoader("dataset")
@@ -17,6 +20,7 @@ def generate_numbers_sequence(
     digits: Iterator[int],
     image_width: Union[int, None] = None,
     spacing_range: Tuple[int, int] = (2, 10),
+    output_path: Union[None, str] = None,
 ) -> np.ndarray:
     """method for generating an image for sequence of numbers
 
@@ -24,6 +28,7 @@ def generate_numbers_sequence(
         digits (Iterator[int]): Digits to be converted to a sequence
         image_width (Union[int, None]): Width of the final image.
         spacing_range (Tuple[int, int], optional): [description]. Defaults to (2, 10).
+        output_path (Union[None, str]): Path for saving image files.
 
     Returns:
         np.ndarray: sequence-image array
@@ -36,21 +41,32 @@ def generate_numbers_sequence(
     assert image_width is not None, "Image width needs to be spedicfied"
 
     images = []
+    save_img_name = ""
     for digit in digits:
         # Retrieve a random image of "digit"
         image = LOADER.retrieve(digit)
         images.append(image)
+        # File name for saving image
+        save_img_name += str(digit)
 
     # Generate a single sequence image from all digits
     img_seq = np.concatenate(images, axis=1)
 
+    # Color Inversion -> white background & black text
     # Pillow object for resizing and saving
-    pil_img = Image.fromarray(img_seq)
+    pil_img = Image.fromarray(255 - img_seq)
     pil_img_seq = pil_img.resize((image_width, image_height))
 
-    # Color Inversion -> white background & black text
+    # Save the image file
+    if output_path is not None:
+        os.makedirs(output_path, exist_ok=True)
+
+        # location for saving the image
+        save_img_path = os.path.join(output_path, save_img_name)
+        pil_img_seq.save(f"{save_img_path}.png")
+
     # Normalized (0.0 - 1.0)
-    return (255.0 - np.array(pil_img_seq, dtype=np.float32)) / 255.0
+    return (np.array(pil_img_seq, dtype=np.float32)) / 255.0
 
 
 def generate_phone_numbers(
@@ -87,19 +103,20 @@ def generate_phone_numbers(
         # Build a iterator function for digits
         digits = (int(digit) for digit in sequence)
         # Sequence image arrays
-        images.append(generate_numbers_sequence(digits, image_width=image_width))
+        images.append(
+            generate_numbers_sequence(
+                digits, image_width=image_width, output_path=output_path
+            )
+        )
 
     # Save the image file
     if output_path is not None:
-        print("=" * 23 + "\nSaving the image files.\n" + "=" * 23)
-        os.makedirs(output_path, exist_ok=True)
-        for i, sequence in enumerate(random_sequences):
-            # Convert to Pillow object
-            pil_img_seq = Image.fromarray((images[i] * 255.0).astype(np.uint8))
-            # Filename and location for saving the image
-            save_img_name = str(sequence)
-            save_img_path = os.path.join(output_path, save_img_name)
-            pil_img_seq.save(f"{save_img_path}.png")
+        str_length = 24 + len(output_path)
+        print(
+            "=" * str_length
+            + f"\nImages are saved at '{output_path}/'.\n"
+            + "=" * str_length
+        )
 
 
 if __name__ == "__main__":
