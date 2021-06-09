@@ -45,12 +45,13 @@ def generate_numbers_sequence(
     img_seq = np.concatenate(images, axis=1)
 
     # Pillow object for resizing and saving
-    pil_img = Image.fromarray(img_seq.astype(np.uint8), "L")
+    pil_img = Image.fromarray(img_seq)
     pil_img_seq = pil_img.resize((image_width, image_height))
 
-    return np.array(pil_img_seq, dtype=np.float32)
+    # Color Inversion -> white background & black text
+    # Normalized (0.0 - 1.0)
+    return (255.0 - np.array(pil_img_seq, dtype=np.float32)) / 255.0
 
 
 if __name__ == "__main__":
     img = generate_numbers_sequence(digits=[4, 1, 1], image_width=None)
-    print(type(img))
