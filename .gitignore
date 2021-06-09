@@ -3,6 +3,7 @@
 
 # Binaries
 *__pycache__
+.coverage
 
 # Poetry 
 poetry.lock
@@ -10,3 +11,4 @@ poetry.lock
 # Directories
 dataset/
 outputs/
+tests/test_outputs
