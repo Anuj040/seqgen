@@ -4,7 +4,7 @@
 # GLOBALS                                                                      #
 ################################################################################
 
-SRC = src
+SRC = number_generator
 TEST = tests/
 PATH_COV_BADGE = figs/coverage.svg
 

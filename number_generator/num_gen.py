@@ -8,9 +8,9 @@ from typing import Iterator, Tuple, Union
 import numpy as np
 from PIL import Image
 
-# pylint: disable = wrong-import-position, import-error
+# pylint: disable = wrong-import-position, import-error, no-name-in-module
 sys.path.append("./")
-from src.utils.data_handler import DataLoader
+from number_generator.utils.data_handler import DataLoader
 
 # Common data loader object for all methods
 LOADER = DataLoader("dataset")
@@ -38,7 +38,7 @@ def generate_numbers_sequence(
     image_height = 28
 
     # If no image width has been provided,
-    assert image_width is not None, "Image width needs to be spedicfied"
+    assert image_width is not None, "Image width needs to be specified"
 
     images = []
     save_img_name = ""

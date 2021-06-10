@@ -4,6 +4,7 @@
 # Binaries
 *__pycache__
 .coverage
+*.DS_Store
 
 # Poetry 
 poetry.lock
