@@ -44,6 +44,6 @@ test:
 
 ## Build wheel package
 build:
-	@poetry build
+	@poetry run python setup.py bdist_wheel
 
 pre-commit: format lint 

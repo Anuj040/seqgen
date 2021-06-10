@@ -29,9 +29,19 @@ poetry install
 ```
 
 ## Standalone Usage
+All commands should be executed from Work Directory
+### Sequence Image Generator
+To use sequence image generator, please input the following from command line
 ```
-Script Under preparation
+poetry run python number_generator/api.py sequence --image_width 150 --output_dir outputs --digits 78677
 ```
+** Digits flag should be one single string of integers
+### Phone Number Generator
+Please use the following from command line
+```
+poetry run python number_generator/api.py phone --num_images 3 --image_width 150 --output_dir outputs
+```
+
 
 Get the unsigned bytes from the gzip file for images and labels (train set only for now)
 Extract the images and labels
@@ -46,7 +56,7 @@ Implement Unittests: Checks the outputs from generate_numbers_sequence and gener
 ## Packaging
 ### Building a package
 * Make a setup.py with required METADATA for the package
-* make the package with ```poetry run python setup.py bdist_wheel```
+* make the package with ```poetry run python setup.py bdist_wheel```　or ```make build```
 
 The above step should provide the follwoing in the work directory.
 ```
@@ -85,7 +95,7 @@ from number_generator import generate_numbers_sequence, generate_phone_numbers
 * Download progress bar for data being downloaded from internet
 * Generator function for model training tasks
 * Data Augmentation
-* 
+* spacing
 
 Points
 Having Unittests/github actions continuosly helped me catch bugs introduced during various changes.
