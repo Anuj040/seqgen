@@ -7,7 +7,7 @@ import sys
 import numpy as np
 
 sys.path.append("./")
-from number_generator.number_generator import generate_numbers_sequence as gns
+from number_generator.num_gen import generate_numbers_sequence as gns
 
 
 def test_output_details():

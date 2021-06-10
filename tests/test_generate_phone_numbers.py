@@ -9,7 +9,7 @@ import numpy as np
 from PIL import Image
 
 sys.path.append("./")
-from number_generator.number_generator import generate_phone_numbers as gpn
+from number_generator.num_gen import generate_phone_numbers as gpn
 
 
 def test_execution_details():
