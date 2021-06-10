@@ -1,0 +1,4 @@
+# .coveragerc to control pytest-cov
+[run]
+# 1. Higher level script for interacting with base functions
+omit = number_generator/api.py 

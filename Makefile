@@ -39,7 +39,7 @@ lint:
 
 ## Run tests
 test:
-	@poetry run pytest $(TEST) --cov=$(SRC) --cov-branch --cov-report term --cov-fail-under 80 --log-cli-level DEBUG
+	@poetry run pytest $(TEST) --cov=$(SRC) --cov-branch --cov-report term --cov-fail-under 80 --log-cli-level DEBUG --cov-config .coveragerc
 	@poetry run coverage-badge -fo $(PATH_COV_BADGE)
 
 ## Build wheel package
