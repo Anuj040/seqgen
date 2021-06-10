@@ -72,13 +72,13 @@ def data_downloader(path: str) -> None:
         path (str): Directed location
     """
     url = "https://data.deepai.org/mnist.zip"
-    r = requests.get(url, allow_redirects=False)
+    receive = requests.get(url, allow_redirects=False)
 
     mnist_path = os.path.join(path, "mnist.zip")
-    with open(mnist_path, "wb") as f:
+    with open(mnist_path, "wb") as file:
 
         # Saving received content as a zip file
-        f.write(r.content)
+        file.write(receive.content)
 
     # Extrcting the contents of the downloaded file
     with zipfile.ZipFile(mnist_path, "r") as zip_ref:

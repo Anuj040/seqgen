@@ -2,13 +2,15 @@
 
 import os
 import random
+import sys
 from typing import Iterator, Tuple, Union
 
 import numpy as np
 from PIL import Image
 
-# pylint: disable = wrong-import-position, import-error
-from utils.data_handler import DataLoader
+# pylint: disable = wrong-import-position, import-error, no-name-in-module
+sys.path.append("./")
+from number_generator.utils.data_handler import DataLoader
 
 # Common data loader object for all methods
 LOADER = DataLoader("dataset")
