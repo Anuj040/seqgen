@@ -1,7 +1,7 @@
 # MNIST Sequence Generator
-![coverage](figs/coverage.svg)
+![coverage](figs/coverage.svg)\
 This is a python implementation of _generate numbers sequence_ and _generate phone numbers_ functions. The code can be used as standalone script or _pip installable package_. Below is a brief about each of these functions.
-1. *generate_numbers_sequence()*: Given an Iterable with a sequence of integers, generates a numpy array with a random representation of each integer from MNIST digits dataset.
+1. *generate_numbers_sequence()*: Given an Iterable with a sequence of integers, generates a numpy array with a random representation of each integer from **MNIST digits dataset**.
 2. *generate_phone_numbers()*: Given an input integer _n_, using *generate_numbers_sequence()* generates _n_ different random phone number (leading digit 0, followed by 10 digits) like sequences.
 * For the above, on being provided an _output path_, both functions will save the generated numpy arrays as _*.png_ file(s). 
 * The width of the final generated image has to be provided as an input.
@@ -40,7 +40,7 @@ poetry install
 * Get the unsigned bytes from the gzip file for images and labels (train set only for now)
 * Extract the images and labels, into the desired shapes and data types (_uint8_).
 * Filter the indices for each digit in the dataset (_python dict_).
-* In *generate_numbers_sequence()*, convert the data type for images to float32, and invert the colors (white: background, black: text).
+* In *generate_numbers_sequence()*, convert the data type for images to _float32_, and invert the colors (white: background, black: text).
 
 ## Standalone Usage
 All commands should be executed from Work Directory
@@ -49,7 +49,7 @@ To use sequence image generator, please input the following from command line
 ```
 poetry run python number_generator/api.py sequence --image_width 150 --output_dir outputs --digits 78677
 ```
-** Digits flag should be one single string of integers
+**Note**: Digits flag should be one single string of integers
 ### Phone Number Generator
 Please use the following from command line
 ```
@@ -90,7 +90,7 @@ import number_generator
 from number_generator import generate_numbers_sequence, generate_phone_numbers
 ```
 
-** Attention details for packaging
+**Attention details for packaging**
 * Rename folders and files to meet the naming requirements
 * Include __init__.py files
 
