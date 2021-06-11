@@ -1,5 +1,6 @@
 """module for different (sequence, phone-number) generator functions"""
 
+import math
 import os
 import random
 import sys
@@ -16,11 +17,63 @@ from number_generator.utils.data_handler import DataLoader
 LOADER = DataLoader("dataset")
 
 
+def scale_and_rotate_image(im: Image.Image) -> Image.Image:
+    """Affine Image Augmentation
+        Code from https://stackoverflow.com/a/49468270
+
+    Args:
+        im (Image.Image): image array
+
+    Returns:
+        Image.Image: augmented image array
+    """
+    # pylint: disable = invalid-name, too-many-locals
+
+    # Rotation and scale factor for the affine transformations
+    deg_ccw = random.randint(-15, 15)
+    scale_x = random.random() + 0.5
+    scale_y = random.random() + 0.5
+
+    # Get image dimensions
+    width, height = im.size
+    angle = math.radians(-deg_ccw)
+
+    cos_theta = math.cos(angle)
+    sin_theta = math.sin(angle)
+
+    scaled_w, scaled_h = width * scale_x, height * scale_y
+
+    new_w = int(
+        math.ceil(math.fabs(cos_theta * scaled_w) + math.fabs(sin_theta * scaled_h))
+    )
+    new_h = int(
+        math.ceil(math.fabs(sin_theta * scaled_w) + math.fabs(cos_theta * scaled_h))
+    )
+
+    org_center_x = width / 2.0
+    org_center_y = height / 2.0
+    trans_center_x = new_w / 2.0
+    trans_center_y = new_h / 2.0
+
+    a = cos_theta / scale_x
+    b = sin_theta / scale_x
+    c = org_center_x - trans_center_x * a - trans_center_y * b
+    d = -sin_theta / scale_y
+    e = cos_theta / scale_y
+    f = org_center_y - trans_center_x * d - trans_center_y * e
+    im = im.transform(
+        (new_w, new_h), Image.AFFINE, (a, b, c, d, e, f), resample=Image.BILINEAR
+    )
+
+    return im.resize((width, height))
+
+
 def generate_numbers_sequence(
     digits: Iterator[int],
     image_width: Union[int, None] = None,
     spacing_range: Tuple[int, int] = (2, 10),
     output_path: Union[None, str] = None,
+    augment: bool = False,
 ) -> np.ndarray:
     """method for generating an image for sequence of numbers
 
@@ -29,6 +82,7 @@ def generate_numbers_sequence(
         image_width (Union[int, None]): Width of the final image.
         spacing_range (Tuple[int, int], optional): [description]. Defaults to (2, 10).
         output_path (Union[None, str]): Path for saving image files.
+        augment (bool, optional): Apply image augmentation
 
     Returns:
         np.ndarray: sequence-image array
@@ -45,6 +99,16 @@ def generate_numbers_sequence(
     for digit in digits:
         # Retrieve a random image of "digit"
         image = LOADER.retrieve(digit)
+
+        if augment:
+            # Pass a Pillow Image object
+            image = Image.fromarray(image)
+
+            image = scale_and_rotate_image(image)
+
+            # Convert to numpy array
+            image = np.array(image)
+
         images.append(image)
         # File name for saving image
         save_img_name += str(digit)
@@ -74,6 +138,7 @@ def generate_phone_numbers(
     image_width: Union[int, None] = None,
     spacing_range: Tuple[int, int] = (2, 10),
     output_path: Union[None, str] = None,
+    augment: bool = False,
     seed: Union[int, None] = None,
 ):
     """method for generating images for random phone numbers
@@ -83,6 +148,7 @@ def generate_phone_numbers(
         image_width (Union[int, None]): Width of the final image.
         spacing_range (Tuple[int, int], optional): [description]. Defaults to (2, 10).
         output_path (Union[None, str]): Path for saving image files.
+        augment (bool, optional): Apply image augmentation
         seed (Union[None, int]): seed for the random lib for reproducibility. Defaults to None
     """
     # If no image width has been provided,
@@ -105,7 +171,10 @@ def generate_phone_numbers(
         # Sequence image arrays
         images.append(
             generate_numbers_sequence(
-                digits, image_width=image_width, output_path=output_path
+                digits,
+                image_width=image_width,
+                output_path=output_path,
+                augment=augment,
             )
         )
 
@@ -128,4 +197,4 @@ def generate_phone_numbers(
 
 if __name__ == "__main__":
     # img = generate_numbers_sequence(digits=[4, 1, 1], image_width=None)
-    generate_phone_numbers(10, image_width=500, output_path="outputs")
+    generate_phone_numbers(10, image_width=500, output_path="outputs", augment=True)
