@@ -18,7 +18,7 @@ This is a python implementation of _generate numbers sequence_ and _generate pho
 
 ## Installation Guideline
 
-```
+```sh
 git clone git@github.com:Anuj040/seqgen.git [-b <branch_name>]
 cd seqgen (Work Directory)
 
@@ -46,13 +46,13 @@ poetry install
 All commands should be executed from Work Directory
 ### Sequence Image Generator
 To use sequence image generator, please input the following from command line
-```
+```python
 poetry run python number_generator/api.py sequence --image_width 150 --output_dir outputs --digits 78677
 ```
 **Note**: Digits flag should be one single string of integers
 ### Phone Number Generator
 Please use the following from command line
-```
+```python
 poetry run python number_generator/api.py phone --num_images 3 --image_width 150 --output_dir outputs
 ```
 
@@ -62,7 +62,7 @@ poetry run python number_generator/api.py phone --num_images 3 --image_width 150
 * make the package with ```poetry run python setup.py bdist_wheel```　or ```make build```
 
 The above step should provide the following in the work directory.
-```
+```sh
     seqgen {work_directory}
     ├── number_generator
     ├── build                  
@@ -80,12 +80,12 @@ The above step should provide the following in the work directory.
     └── ...
 ```
 ### Installing the package
-```
+```python
 python -m pip uninstall {path_to}/dist/number_generator-0.1-py3-none-any.whl
 ```
 ### Using the package
 With the above steps in place, one should be able to import the _number_generator_ module
-```
+```python
 import number_generator
 from number_generator import generate_numbers_sequence, generate_phone_numbers
 ```
