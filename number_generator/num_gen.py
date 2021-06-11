@@ -117,6 +117,13 @@ def generate_phone_numbers(
             + f"\nImages are saved at '{output_path}/'.\n"
             + "=" * str_length
         )
+    else:
+        str_length = 55
+        print(
+            "=" * str_length
+            + "\nOutput path not provided, skip saving generated images.\n"
+            + "=" * str_length
+        )
 
 
 if __name__ == "__main__":
