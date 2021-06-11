@@ -1,5 +1,13 @@
 # MNIST Sequence Generator
 ![coverage](figs/coverage.svg)
+This is a python implementation of _generate numbers sequence_ and _generate phone numbers_ functions. The code can be used as standalone script or _pip installable package_. Below is a brief about each of these functions.
+1. *generate_numbers_sequence()*: Given an Iterable with a sequence of integers, generates a numpy array with a random representation of each integer from MNIST digits dataset.
+2. *generate_phone_numbers()*: Given an input integer _n_, using *generate_numbers_sequence()* generates _n_ different random phone number (leading digit 0, followed by 10 digits) like sequences.
+* For the above, on being provided an _output path_, both functions will save the generated numpy arrays as _*.png_ file(s). 
+* The width of the final generated image has to be provided as an input.
+* To ascertain the proper working of the above functions, relevant unittests have been implemented.
+    * *test_generate_numbers_sequence.py*: Ascertains that the returned values from *generate_numbers_sequence()* are of expected _type, shape, range_.
+    * *test_generate_phone_numbers.py*: Checks if the expected number of files have been generated and the files meet the defined specifications.
 
 ## Environment
 * python == ^3.8 (tested with 3.8, 3.9)
@@ -27,6 +35,12 @@ poetry run python -m pip install --upgrade pip
 poetry install
 
 ```
+## Dataset preparation
+* Check if the original dataset is available, if not, download from https://data.deepai.org/mnist.zip.
+* Get the unsigned bytes from the gzip file for images and labels (train set only for now)
+* Extract the images and labels, into the desired shapes and data types (_uint8_).
+* Filter the indices for each digit in the dataset (_python dict_).
+* In *generate_numbers_sequence()*, convert the data type for images to float32, and invert the colors (white: background, black: text).
 
 ## Standalone Usage
 All commands should be executed from Work Directory
@@ -42,23 +56,12 @@ Please use the following from command line
 poetry run python number_generator/api.py phone --num_images 3 --image_width 150 --output_dir outputs
 ```
 
-
-Get the unsigned bytes from the gzip file for images and labels (train set only for now)
-Extract the images and labels
-convert the data types for images to float32, and invert the colors (white: background, black: text)
-Filter the indices for each digit in the dataset.
-Define a method for retrieving a random image of a given "digit"
-define a method for generating n number of random phone-number like sequence images
-
-
-Implement Unittests: Checks the outputs from generate_numbers_sequence and generate_phone_numbers of number_generator module
-
 ## Packaging
 ### Building a package
 * Make a setup.py with required METADATA for the package
 * make the package with ```poetry run python setup.py bdist_wheel```　or ```make build```
 
-The above step should provide the follwoing in the work directory.
+The above step should provide the following in the work directory.
 ```
     seqgen {work_directory}
     ├── number_generator
@@ -98,4 +101,4 @@ from number_generator import generate_numbers_sequence, generate_phone_numbers
 * spacing
 
 Points
-Having Unittests/github actions continuosly helped me catch bugs introduced during various changes.
+Having Unittests/github actions continuosly helped me catch bugs introduced with various changes.
