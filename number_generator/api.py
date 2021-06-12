@@ -50,6 +50,13 @@ parser.add_argument(
     type=tuple,
     help="Digits for sequence eg 3629",
 )
+parser.add_argument(
+    "-aug",
+    "--augment",
+    required=False,
+    type=bool,
+    help="Use Image augmentation",
+)
 args = parser.parse_args()
 
 
@@ -71,6 +78,7 @@ def main():
             num_images=args.num_images,
             image_width=args.image_width,
             output_path=args.output_dir,
+            augment=args.augment,
         )
     elif args.command == "sequence":
         # Convert into a iterable of ints
@@ -79,6 +87,7 @@ def main():
             digits=digits,
             image_width=args.image_width,
             output_path=args.output_dir,
+            augment=args.augment,
         )
 
 

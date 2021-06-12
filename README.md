@@ -88,7 +88,23 @@ With the above steps in place, one should be able to import the _number_generato
 ```python
 import number_generator
 from number_generator import generate_numbers_sequence, generate_phone_numbers
+
+# returns a numpy array
+img = generate_numbers_sequence(digits=[4, 1, 1], image_width=None)
+
+# Generates 10 images of phone number like sequences
+generate_phone_numbers(10, image_width=500, output_path="outputs")
 ```
+
+## Trade-offs
+* Since the problem statement required the output in the form black text over white background, I had to decide whether to do the flip in the _data handler_ script or *generate_numbers_sequence* function. I implemented the latter as it allows me to extend _data handler_ script to future application not requiring this reversal.
+* Declaring _LOADER_ (DataLoader class instance in _num gen_ script) as a global variable or local variable in *generate_numbers_sequence* function. I chose the former as it avoids reinitializing the loader for every call to *generate_numbers_sequence* function from *generate_phone_numbers* function.
+    * However, a case can be made for for declaring it in *generate_phone_numbers* function and passing it with every call to *generate_numbers_sequence* function.
+* By default images are not saved for *generate_numbers_sequence* function. Only done if an output directory is provided as an argument. This is done keeping with a view to extend its usage, if need be, where saving the image is not necessarily required. 
+    * However, for the _API_ saving the images is the default behaviour, as per the requirements of the assignment.
+* For saving and resizing images *Pillow* is used. Other choice I had was OpenCV. But *OpenCV* has a tendency to throw very cryptic errors sometimes, so decided on *Pilllow*.
+* For image augmentations, I have implemented custom functions for noise and affine augmentation. Usually, I will use a public module like *imgaug* or *opencv* however, I recently moved to Apple M1 and it is facing a lot of issues with the installation of various libraries. So, for this project, I decided to skip with the standard libraries. If I necessarily need to do that, I believe I could do that using a docker container but I have not tested it on my maachine, so ca't be certain.
+
 
 **Attention details for packaging**
 * Rename folders and files to meet the naming requirements
@@ -97,7 +113,7 @@ from number_generator import generate_numbers_sequence, generate_phone_numbers
 ### Pending Imporvements/Features
 * Download progress bar for data being downloaded from internet
 * Generator function for model training tasks
-* Data Augmentation
+* Would like to include more augmentations but due to Apple M1 issue mentioned above, for now I have given up on that. 
 * spacing
 
 Points

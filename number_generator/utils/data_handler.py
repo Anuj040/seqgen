@@ -92,21 +92,23 @@ class DataLoader:
     """Class for retriving and sorting data"""
 
     def __init__(self, path: str) -> None:
+        # Path to train images and labels
+        train_images_path = os.path.join(path, "train-images-idx3-ubyte.gz")
+        train_labels_path = os.path.join(path, "train-labels-idx1-ubyte.gz")
 
-        if not os.path.exists(path):
+        if not (
+            os.path.exists(train_images_path) and os.path.exists(train_labels_path)
+        ):
             # If the data does not exist at directed location
             # Download and extract the data
-            os.makedirs(path)
+            os.makedirs(path, exist_ok=True)
             print("Data not available. Downloading it from the internet.")
             data_downloader(path)
             print("Download finished.")
 
         # retrieve image & labels objects
-        images_path = os.path.join(path, "train-images-idx3-ubyte.gz")
-        self.images = training_images(images_path)
-
-        labels_path = os.path.join(path, "train-labels-idx1-ubyte.gz")
-        self.labels = training_labels(labels_path)
+        self.images = training_images(train_images_path)
+        self.labels = training_labels(train_labels_path)
 
         # Prepare a dict of image array indices for each digit
         self.digit_indices = {}
