@@ -27,7 +27,9 @@ def test_output_details():
         image_width = random.randint(100, 150)
 
         # Retrieve sequence image array
-        image = gns(digits, image_width=image_width, output_path=output_path)
+        image = gns(
+            digits, image_width=image_width, output_path=output_path, augment=True
+        )
 
         # Check for the shape and dtype of the output array
         assert image.shape == (28, image_width)
