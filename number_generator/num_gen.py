@@ -68,6 +68,34 @@ def scale_and_rotate_image(im: Image.Image) -> Image.Image:
     return im.resize((width, height))
 
 
+def s_and_p_noise(image: np.ndarray) -> np.ndarray:
+    """Introduce salt and pepper noise to the image
+
+    Args:
+        image (np.ndarray): an image numpy array
+
+    Returns:
+        np.ndarray: a numpy array of noise added image
+    """
+
+    # Proportion of noisy pixels
+    noise_amount = 0.01 * random.random()
+    # Proportion of the noisy pixels with salt noise
+    s_vs_p = 0.8
+
+    # Salt mode
+    num_salt = np.ceil(noise_amount * image.size * s_vs_p)
+    noisy_coords = tuple(np.random.randint(0, j, int(num_salt)) for j in image.shape)
+    image[noisy_coords] = 255
+
+    # Pepper mode
+    num_pepper = np.ceil(noise_amount * image.size * (1.0 - s_vs_p))
+    noisy_coords = tuple(np.random.randint(0, j, int(num_pepper)) for j in image.shape)
+    image[noisy_coords] = 0
+
+    return image
+
+
 def generate_numbers_sequence(
     digits: Iterator[int],
     image_width: Union[int, None] = None,
@@ -104,6 +132,7 @@ def generate_numbers_sequence(
             # Pass a Pillow Image object
             image = Image.fromarray(image)
 
+            # Apply single digit augmentation
             image = scale_and_rotate_image(image)
 
             # Convert to numpy array
@@ -115,6 +144,11 @@ def generate_numbers_sequence(
 
     # Generate a single sequence image from all digits
     img_seq = np.concatenate(images, axis=1)
+
+    # Whole seq augmentation
+    if augment:
+
+        img_seq = s_and_p_noise(np.array(img_seq))
 
     # Color Inversion -> white background & black text
     # Pillow object for resizing and saving
