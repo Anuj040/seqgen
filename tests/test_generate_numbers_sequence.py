@@ -7,12 +7,13 @@ import sys
 import numpy as np
 
 sys.path.append("./")
+# Remove the existing dataset
+shutil.rmtree("dataset")
 from number_generator.num_gen import generate_numbers_sequence as gns
 
 
 def test_output_details():
     """test the outputs of the generate_numbers_sequence method are as expected"""
-
     output_path = "./tests/test_outputs"
 
     # check for different cases
