@@ -189,7 +189,7 @@ def generate_phone_numbers(
         verbose (bool, optional): print messages
     """
     # If no image width has been provided,
-    assert image_width is not None, "Image width needs to be spedicfied"
+    assert image_width is not None, "Image width needs to be specified"
     random.seed(seed)
 
     # Empty set for storing unique sequences

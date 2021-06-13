@@ -111,7 +111,7 @@ generate_phone_numbers(10, image_width=500, output_path="outputs")
 * For saving and resizing images *Pillow* is used. Other choice I had was OpenCV. But *OpenCV* has a tendency to throw very cryptic errors sometimes, so decided on *Pilllow*.
 * For image augmentations, I have implemented custom functions for noise and affine augmentation. Usually, I will use a public module like *imgaug* or *opencv* however, I recently moved to Apple M1 and it is facing a lot of issues with the installation of various libraries. So, for this project, I decided to skip with the standard libraries. If I necessarily need to do that, I believe I could do that using a docker container but I have not tested it on my maachine, so ca't be certain.
 * Augmenting a 'single digit image' versus augmenting the 'sequence image'. Whenever possible, go for the latter to decrease the number of *augmenter* function.
-
+* For the DataGenerator class, whether to inherit from *generate_numbers_sequence()* or *generate_phone_numbers()*. Chose the latter, as at the current stage, with no particular end task in sight, *generate_phone_numbers()* provides an easier implementation for data batches.
 
 
 **Attention details for packaging**
@@ -120,7 +120,6 @@ generate_phone_numbers(10, image_width=500, output_path="outputs")
 
 ### Pending Imporvements/Features
 * Download progress bar for data being downloaded from internet
-* Generator function for model training tasks
 * Would like to include more augmentations but due to Apple M1 issue mentioned above, for now I have given up on that. 
 * spacing
 
