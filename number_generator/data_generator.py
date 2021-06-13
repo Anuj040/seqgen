@@ -32,7 +32,6 @@ class DataGenerator:
         self.augment = augment
         self.output_path = output_path
         if self.output_path is not None:
-            print("here")
             warnings.warn(
                 f"Generated image files will be saved at '{self.output_path}'. \
                 Depending on the train length, it might take-up significant memory",
@@ -59,5 +58,5 @@ class DataGenerator:
 
 if __name__ == "__main__":
     generator = DataGenerator(augment=True, output_path="outputs")
-    # for inputs, outputs in generator():
-    #     print(outputs)
+    for inputs, outputs in generator():
+        print(outputs.shape)
