@@ -9,6 +9,11 @@ This is a python implementation of _generate numbers sequence_ and _generate pho
     * *test_generate_numbers_sequence.py*: Ascertains that the returned values from *generate_numbers_sequence()* are of expected _type, shape, range_.
     * *test_generate_phone_numbers.py*: Checks if the expected number of files have been generated and the files meet the defined specifications.
 
+### Data Generator
+For machine learning application, a separate *DataGenerator* class has also been implemented. The generator class inherits from *generate_phone_numbers()* above and returns an input-output pair, such that,
+* _input_: (bath_size, image_height, image_width), *image_width* is user specified, whereas *image_height* is set to default (==28) of **MNIST digits dataset**.
+* _output_: (batch_size,), with each element being a string representing phone number like sequence in the image files.
+
 ## Environment
 * python == ^3.8 (tested with 3.8, 3.9)
 * numpy
