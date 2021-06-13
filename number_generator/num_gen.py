@@ -205,7 +205,7 @@ def generate_phone_numbers(
         # Add leading zero to phone number like sequences
         sequence = "0" + str(sequence)
         # Build a iterator function for digits
-        digits = (int(digit) for digit in sequence)
+        digits = tuple(int(digit) for digit in sequence)
         # Sequence image arrays
         images.append(
             generate_numbers_sequence(
@@ -215,7 +215,7 @@ def generate_phone_numbers(
                 augment=augment,
             )
         )
-        zero_prefix_sequences.append(sequence)
+        zero_prefix_sequences.append(digits)
 
     # Save the image file
     if verbose:

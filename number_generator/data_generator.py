@@ -53,7 +53,7 @@ class DataGenerator:
                 [np.expand_dims(sequence, axis=0) for sequence in sequence_batch],
                 axis=0,
             )
-            yield image_batch, sequence_batch
+            yield np.expand_dims(image_batch, axis=-1), sequence_batch
 
 
 if __name__ == "__main__":
