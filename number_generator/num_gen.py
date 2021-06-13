@@ -148,7 +148,7 @@ def generate_numbers_sequence(
     # Whole seq augmentation
     if augment:
 
-        img_seq = s_and_p_noise(np.array(img_seq))
+        img_seq = s_and_p_noise(img_seq)
 
     # Color Inversion -> white background & black text
     # Pillow object for resizing and saving
@@ -167,6 +167,7 @@ def generate_numbers_sequence(
     return (np.array(pil_img_seq, dtype=np.float32)) / 255.0
 
 
+# pylint: disable = too-many-arguments
 def generate_phone_numbers(
     num_images: int,
     image_width: Union[int, None] = None,
@@ -174,6 +175,7 @@ def generate_phone_numbers(
     output_path: Union[None, str] = None,
     augment: bool = False,
     seed: Union[int, None] = None,
+    verbose: bool = True,
 ):
     """method for generating images for random phone numbers
 
@@ -184,6 +186,7 @@ def generate_phone_numbers(
         output_path (Union[None, str]): Path for saving image files.
         augment (bool, optional): Apply image augmentation
         seed (Union[None, int]): seed for the random lib for reproducibility. Defaults to None
+        verbose (bool, optional): print messages
     """
     # If no image width has been provided,
     assert image_width is not None, "Image width needs to be spedicfied"
@@ -197,6 +200,7 @@ def generate_phone_numbers(
         random_sequences.add(random.randint(1_000_000_000, 9_999_999_999))
 
     images = []
+    zero_prefix_sequences = []
     for sequence in random_sequences:
         # Add leading zero to phone number like sequences
         sequence = "0" + str(sequence)
@@ -211,22 +215,25 @@ def generate_phone_numbers(
                 augment=augment,
             )
         )
+        zero_prefix_sequences.append(sequence)
 
     # Save the image file
-    if output_path is not None:
-        str_length = 24 + len(output_path)
-        print(
-            "=" * str_length
-            + f"\nImages are saved at '{output_path}/'.\n"
-            + "=" * str_length
-        )
-    else:
-        str_length = 55
-        print(
-            "=" * str_length
-            + "\nOutput path not provided, skip saving generated images.\n"
-            + "=" * str_length
-        )
+    if verbose:
+        if output_path is not None:
+            str_length = 24 + len(output_path)
+            print(
+                "=" * str_length
+                + f"\nImages are saved at '{output_path}/'.\n"
+                + "=" * str_length
+            )
+        else:
+            str_length = 55
+            print(
+                "=" * str_length
+                + "\nOutput path not provided, skip saving generated images.\n"
+                + "=" * str_length
+            )
+    return images, zero_prefix_sequences
 
 
 if __name__ == "__main__":
