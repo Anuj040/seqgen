@@ -127,6 +127,7 @@ generate_phone_numbers(10, image_width=500, output_path="outputs")
 * Further, implement test datatset based image sequences for true validation of the model. Currently, using fixed samples from train dataset images as a proxy (example below).
 * Implement *spacing range* parameter in the original _generate numbers sequence_ and _generate phone numbers_ functions. At the time of submission, I still had not received clarification for this argument, so could not do it.
 
-[Test Image](figs/06025656705.png)\
+### Example Test Sample
+![Test Image](figs/06025656705.png)\
 Ground truth: [0 6 0 2 5 6 5 6 7 0 5]\
-Predicted:    [0 6 0 2 4 6 5 6 7 0 4]
+Predicted:[0 6 0 2 4 6 5 6 7 0 4]
