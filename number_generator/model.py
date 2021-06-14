@@ -112,7 +112,7 @@ class SequenceModel:
 
         # Sample examples
         inputs, outputs = next(test_generator())
-        model_outputs = self.model(inputs).numpy().astype(np.uint8)
+        model_outputs = (self.model(inputs) + 0.5).numpy().astype(np.uint8)
         for i in range(2):
             print("gt:", outputs[i])
             print("pr:", model_outputs[i])

@@ -21,7 +21,8 @@ class SequenceAccuracy(tf.keras.metrics.Metric):
     # pylint: disable = arguments-differ
     def update_state(self, y_true, y_pred, **kwargs) -> None:
 
-        correct_pred = tf.cast(y_true, y_pred.dtype) == y_pred
+        y_pred = y_pred + tf.cast(0.5, y_pred.dtype)  # to implement digit(5.5, 6.5) = 6
+        correct_pred = tf.cast(y_pred, y_true.dtype) == y_true
         correct_pred = tf.cast(correct_pred, tf.float32)
 
         # Number of samples in a given batch
