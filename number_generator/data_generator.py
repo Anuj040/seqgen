@@ -1,6 +1,7 @@
 """module for data generator class for ML training"""
 import sys
 import warnings
+from typing import Union
 
 import numpy as np
 
@@ -10,7 +11,7 @@ from number_generator.num_gen import generate_phone_numbers
 
 
 class DataGenerator:
-    """Data generator class for returing batches of input-output pair"""
+    """Data generator class for returning batches of input-output pair"""
 
     def __init__(
         self,
@@ -18,6 +19,7 @@ class DataGenerator:
         image_width: int = 400,
         augment: bool = False,
         output_path: str = None,
+        seed: Union[int, None] = None,
     ) -> None:
         """
         Args:
@@ -26,11 +28,13 @@ class DataGenerator:
             augment (bool, optional): Apply image augmentations. Defaults to False.
             output_path (str, optional): Path for saving generated images. Use only for testing.
                                         Defaults to None.
+            seed (Union[int, None]): seed for the random lib for reproducibility. Defaults to None
         """
         self.batch_size = batch_size
         self.image_width = image_width
         self.augment = augment
         self.output_path = output_path
+        self.seed = seed
         if self.output_path is not None:
             warnings.warn(
                 f"Generated image files will be saved at '{self.output_path}'. \
@@ -45,6 +49,7 @@ class DataGenerator:
                 augment=self.augment,
                 verbose=False,
                 output_path=self.output_path,
+                seed=self.seed,
             )
             image_batch = np.concatenate(
                 [np.expand_dims(image, axis=0) for image in image_batch], axis=0
