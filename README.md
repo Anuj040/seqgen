@@ -114,7 +114,7 @@ generate_phone_numbers(10, image_width=500, output_path="outputs")
 * For the DataGenerator class, whether to inherit from *generate_numbers_sequence()* or *generate_phone_numbers()*. Chose the latter, as at the current stage, with no particular end task in sight, *generate_phone_numbers()* provides an easier implementation for data batches.
 * Final output of the model: LSTM(_n_ units) versus _n_ dense layers, where _n_ is the sequence length. Now, in principle, the presence of a digit at a given place is independent of the digit at the preceding place. However, we use the same latent features to predict the whole sequence, therefore, a given prediction should be aware of the digits predicted prior. This is to enable the adjustment of the attention on the latent features accordingly. 
     * Just for completeness, I tested replacing the LSTM layer with a single Dense layer of _n_ units (rest of the model architecture kept same) and the performance was significantly worse. Infact, it predicted pretty much the same digit (except the leading "0") for all the positions.
-* Given the simplicity of the **MNIST digits**, for the *core section* of the model architecture, I thought a simple series of fully connected (FC) layers should suffice. However, on testing a convolution layer (+ FCs) based core performed better than just a bunch of FC layers. One possible reason is, of course, the sequence nature (+ augmentations) of the images imply that the dataset is not simple anymore. 
+* Given the simplicity of the **MNIST digits**, for the *core section* of the model architecture, I thought a simple series of fully connected (FC) layers should suffice. However, on testing, a convolution layer (+ FCs) based core-model performed better than just a bunch of FC layers. One possible reason is, of course, the sequence nature (+ augmentations) of the images imply that the dataset is not simple anymore. Also, the induced translational bias from convolutions help in better separation of features.
 
 
 ### Pending Imporvements/Features
@@ -123,6 +123,10 @@ generate_phone_numbers(10, image_width=500, output_path="outputs")
 * spacing
 * Multiple worker training: _"RuntimeError: Your generator is NOT thread-safe"_. Need to work on this, though at the moment I do not have much experience in this.
 * In the current structure, setting "seed" for the data generator is generating the same batche over and over. Will need to fix that for proper evaluation of the model performance.
-* Right now, in this crude form of the model architecture, the accuracy of the predicted digits is barely hitting 16%, so I plan to further look into what possible measures (training strategies or architecture changes) can be made to optimize the model performance.
+* Right now, in this crude form of the model architecture, the accuracy of the predicted digits is barely hitting 80% and is overly parameterized (20 million+, becasue to FCs), so I plan to further look into possible measures (training strategies or architecture changes) to optimize the model performance.
+* Further, implement test datatset based image sequences for true validation of the model. Currently, using fixed samples from train dataset images as a proxy (example below).
 * Implement *spacing range* parameter in the original _generate numbers sequence_ and _generate phone numbers_ functions. At the time of submission, I still had not received clarification for this argument, so could not do it.
 
+[Test Image](figs/06025656705.png)\
+Ground truth: [0 6 0 2 5 6 5 6 7 0 5]\
+Predicted:    [0 6 0 2 4 6 5 6 7 0 4]
