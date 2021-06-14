@@ -116,6 +116,7 @@ generate_phone_numbers(10, image_width=500, output_path="outputs")
     * Just for completeness, I tested replacing the LSTM layer with a single Dense layer of _n_ units (rest of the model architecture kept same) and the performance was significantly worse. Infact, it predicted pretty much the same digit (except the leading "0") for all the positions.
 * Given the simplicity of the **MNIST digits**, for the *core section* of the model architecture, I thought a simple series of fully connected (FC) layers should suffice. However, on testing a convolution layer (+ FCs) based core performed better than just a bunch of FC layers. One possible reason is, of course, the sequence nature (+ augmentations) of the images imply that the dataset is not simple anymore. 
 
+
 ### Pending Imporvements/Features
 * Progress bar for data download from the internet
 * Would like to include more augmentations but due to Apple M1 issue mentioned above, for now I have given up on that. 
