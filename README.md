@@ -10,9 +10,9 @@ This is a python implementation of _generate numbers sequence_ and _generate pho
     * *test_generate_phone_numbers.py*: Checks if the expected number of files have been generated and the files meet the defined specifications.
 
 ### Data Generator
-For machine learning application, a separate *DataGenerator* class has also been implemented. The generator class inherits from *generate_phone_numbers()* above and returns an input-output pair, such that,
+For machine learning applications, a separate *DataGenerator* class is implemented. The generator class inherits from *generate_phone_numbers()* above and returns an input-output pair, such that,
 * _input_: (bath_size, image_height, image_width), *image_width* is user specified, whereas *image_height* is set to default (==28) of **MNIST digits dataset**.
-* _output_: (batch_size,), with each element being a string representing phone number like sequence in the image files.
+* _output_: (batch_size,), with each element being a string representing phone-number like sequence in the image files.
 
 ## Environment
 * python == ^3.8 (tested with 3.8, 3.9)
@@ -28,7 +28,7 @@ git clone git@github.com:Anuj040/seqgen.git [-b <branch_name>]
 cd seqgen (Work Directory)
 
 # local environment settings
-pyenv local 3.9.1                             # Choose python of choice                                  
+pyenv local 3.9.1                             # Choose python of choice
 python -m pip install poetry
 poetry config virtualenvs.create true --local
 poetry config virtualenvs.in-project true --local
@@ -109,19 +109,12 @@ generate_phone_numbers(10, image_width=500, output_path="outputs")
 * By default images are not saved for *generate_numbers_sequence* function. Only done if an output directory is provided as an argument. This is done keeping with a view to extend its usage, if need be, where saving the image is not necessarily required. 
     * However, for the _API_ saving the images is the default behaviour, as per the requirements of the assignment.
 * For saving and resizing images *Pillow* is used. Other choice I had was OpenCV. But *OpenCV* has a tendency to throw very cryptic errors sometimes, so decided on *Pilllow*.
-* For image augmentations, I have implemented custom functions for noise and affine augmentation. Usually, I will use a public module like *imgaug* or *opencv* however, I recently moved to Apple M1 and it is facing a lot of issues with the installation of various libraries. So, for this project, I decided to skip with the standard libraries. If I necessarily need to do that, I believe I could do that using a docker container but I have not tested it on my maachine, so ca't be certain.
+* For image augmentations, I have implemented custom functions for noise and affine augmentation. Usually, I will use a public module like *imgaug* or *opencv* however, I recently moved to Apple M1 and it is facing a lot of issues with the installation of various libraries. So, for this project, I decided to skip with the standard libraries. If I necessarily need to do that, I believe I could do that using a docker container but I have not tested it on my machine, so can't be certain.
 * Augmenting a 'single digit image' versus augmenting the 'sequence image'. Whenever possible, go for the latter to decrease the number of *augmenter* function.
 * For the DataGenerator class, whether to inherit from *generate_numbers_sequence()* or *generate_phone_numbers()*. Chose the latter, as at the current stage, with no particular end task in sight, *generate_phone_numbers()* provides an easier implementation for data batches.
 
-
-**Attention details for packaging**
-* Rename folders and files to meet the naming requirements
-* Include __init__.py files
-
 ### Pending Imporvements/Features
-* Download progress bar for data being downloaded from internet
+* Progress bar for data download from the internet
 * Would like to include more augmentations but due to Apple M1 issue mentioned above, for now I have given up on that. 
-* spacing
-
-Points
-Having Unittests/github actions continuosly helped me catch bugs introduced with various changes.
+* Implement *spacing range* parameter in the original _generate numbers sequence_ and _generate phone numbers_ functions. At the time of submission, I still had not received clarification for this argument, so could not do it.
+* Integrate the model training module ([under development](https://github.com/Anuj040/seqgen/tree/model/train)) with the main library.
